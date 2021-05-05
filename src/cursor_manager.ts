@@ -56,6 +56,7 @@ export class CursorManager
      * Special workaround flag to ignore editor selection events
      */
     private ignoreSelectionEvents = false;
+    public isEnabled = true;
     /**
      * Current grid viewport boundaries
      */
@@ -432,7 +433,7 @@ export class CursorManager
      * Update cursor in active editor. Coords are zero based
      */
     private updateCursorPosInEditor = (editor: TextEditor, newLine: number, newCol: number): void => {
-        if (this.ignoreSelectionEvents) {
+        if (this.ignoreSelectionEvents || !this.isEnabled) {
             return;
         }
         const editorName = `${editor.document.uri.toString()}, viewColumn: ${editor.viewColumn}`;

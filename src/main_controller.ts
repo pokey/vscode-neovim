@@ -1,7 +1,7 @@
 import { spawn, ChildProcess, execSync } from "child_process";
 import path from "path";
 
-import vscode from "vscode";
+import vscode, { commands } from "vscode";
 import { attach, NeovimClient } from "neovim";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createLogger, transports as loggerTransports } from "winston";
@@ -224,6 +224,20 @@ export class MainController implements vscode.Disposable {
 
         this.multilineMessagesManager = new MutlilineMessagesManager(this.logger);
         this.disposables.push(this.multilineMessagesManager);
+        this.disposables.push(
+            commands.registerCommand("vscode-neovim.toggle-enabled", () => {
+                this.cursorManager.isEnabled = !this.cursorManager.isEnabled;
+                this.modeManager.isEnabled = !this.modeManager.isEnabled;
+            }),
+            commands.registerCommand("vscode-neovim.enable", () => {
+                this.cursorManager.isEnabled = true;
+                this.modeManager.isEnabled = true;
+            }),
+            commands.registerCommand("vscode-neovim.disable", () => {
+                this.cursorManager.isEnabled = false;
+                this.modeManager.isEnabled = false;
+            }),
+        );
 
         this.logger.debug(`${LOG_PREFIX}: UIAttach`);
         // !Attach after setup of notifications, otherwise we can get blocking call and stuck

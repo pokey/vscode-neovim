@@ -19,6 +19,7 @@ export class ModeManager implements Disposable, NeovimRedrawProcessable, NeovimE
      * True when macro recording in insert mode
      */
     private isRecording = false;
+    public isEnabled = true;
 
     private eventEmitter = new EventEmitter();
 
@@ -81,7 +82,7 @@ export class ModeManager implements Disposable, NeovimRedrawProcessable, NeovimE
     }
 
     private onDidChangeActiveTextEditor = (): void => {
-        if (!this.isNormalMode) {
+        if (this.isEnabled && !this.isNormalMode) {
             commands.executeCommand("vscode-neovim.escape");
         }
     };
