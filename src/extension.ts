@@ -6,7 +6,7 @@ import { getNeovimPath, getNeovimInitPath, EXT_ID, EXT_NAME } from "./utils";
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
-    const ext = vscode.extensions.getExtension(EXT_ID)!;
+    const ext = vscode.extensions.getExtension("asvetliakov.vscode-neovim-hacked")!;
     const settings = vscode.workspace.getConfiguration(EXT_NAME);
     const neovimPath = getNeovimPath();
     if (!neovimPath) {
